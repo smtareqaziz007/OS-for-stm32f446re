@@ -13,9 +13,9 @@ monitor flash write_image erase target/asst01
 Terminal 3
 screen /dev/ttyACM0 115200,cs8
  
-After modification
+After modification new terminal
 make all
 
-in gdb
+in gdb terminal tab
 monitor reset init
 monitor flash write_image erase target/asst01
