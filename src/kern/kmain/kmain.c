@@ -18,10 +18,10 @@ void kmain(void)
 	//sysTick_Disable();
 
 	uint32_t cases = 10;
-	/*uint32_t a = 12345678;
-    float x = 9.99;
-    uint8_t c[100];
-    char ch;*/
+	//uint32_t a = 12345678;
+    //float x = 9.09;
+    // uint8_t c[100];
+    // char ch;
 
 	kprintf((uint8_t*)"%s",(uint8_t*)"\n\n\n");
 	kprintf((uint8_t*)"%s",(uint8_t*)"-----------------------------");
@@ -51,6 +51,7 @@ void kmain(void)
 		kprintf((uint8_t*)"%s",(uint8_t*)"Required time : ");
 		kprintf((uint8_t*)"%d", (uint8_t*) &x);
 		kprintf((uint8_t*)"%s",(uint8_t*)"\n");
+ 		
 
 		uint32_t t3 = getTime();
 
@@ -68,9 +69,6 @@ void kmain(void)
 		sysTick_Disable();
 	}
 }
-
-
-
 
 
 

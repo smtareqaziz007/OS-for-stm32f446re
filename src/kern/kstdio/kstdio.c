@@ -65,40 +65,37 @@ void convertIntToHexString(uint32_t n , uint8_t s[]){
 
 void convertFloatToString(float f , uint8_t s[]){
 
-	uint32_t whole = (uint32_t) f;
-	float t = f - whole;
-	t = t * 10000.0;
-	uint32_t frac = (uint32_t) t;
+	if(f == 0){
+		s[0] = '0';
+		s[1] = 0;
+		return;
+	}
 
+	uint32_t whole = 0 , isNeg = 0;
+	if(f < 0) {f *= -1; isNeg = 1;} //making it positive
+	whole = (uint32_t) f;
 	uint32_t i = 0;
 
+	if(!whole) s[i++] = '0';
 	while(whole){
 
 		s[i++] = (whole % 10) + '0';
 		whole /= 10;
 	}
 
+	if(isNeg) s[i++] = '-'; //putting the negative sign
 	reverse(0 , i , s);
 	s[i++] = '.';
-	uint32_t wholeIdx = i;
 
-	while(frac % 10 == 0) frac /=10;
-
-	while(frac){
-
-		s[i++] = (frac % 10) + '0';
-		frac /= 10;
-	}
-
-	/*uint32_t it = 4;
+	//handling the float part
+	uint32_t it = 4;
 	while(it--){
 
-		t *= 10.0;
-		frac = (uint32_t) t;
-		s[i++] = (frac % 10) + '0';
-	}*/
+		f *= 10.0;
+		whole = (uint32_t) f;
+		s[i++] = (whole % 10) + '0';
+	}
 
-	reverse(wholeIdx , i , s);
 	s[i] = 0;
 }
 
@@ -133,37 +130,39 @@ void convertHexStringToInt(uint32_t *var , uint8_t s[]){
 
 void convertStringToFloat(float *var , uint8_t s[]){
 
-	float num;
+	float num = 0.000000 , sign = 1.0;
+	uint32_t whole = 0 , i = 0 ;
+	if(s[0] == '-') {sign = -1.0; i++;}
 
-	uint32_t whole = 0 , frac = 0 , i = 0;
-
-	while(s[i] != '.' ){
+	while(s[i] != '.' && s[i]){
 
 		whole *= 10;
 		whole += (s[i] - '0');
 		i++;
 	}
 
-	i++;
+	//if no (.) in the string
+	if(!s[i]){
+		num = (float) whole;
+		*var = num * sign;
+		return;
+	}
 
+	//ignoring the (.)
+	i++;
+	float j = 1.0;
+
+	//appending the fractional part
 	while(s[i]){
 
-		frac *= 10;
-		frac += (s[i] - '0');
+		j *= 10;
+		num += (s[i] - '0') / j;
 		i++;
 	}
 
-	num = (float)frac;
+	num += (float)whole; //appending the whole part
 
-	while(frac){
-
-		num /= 10;
-		frac /= 10;
-	}
-
-	num += (float)whole;
-
-	*var = num;
+	*var = num * sign;
 }
 
 
@@ -214,6 +213,7 @@ void kprintf(uint8_t *format,uint8_t* outvar)
 void kscanf(uint8_t *format,uint8_t* invar)
 {
 
+	if(format[0] != '%') {showError((uint8_t *)"Invalid format specifier\n");return;}
 
 	if(format[1] == 'c') {
         _USART_READ(USART2, invar, 2);
@@ -258,7 +258,7 @@ void kscanf(uint8_t *format,uint8_t* invar)
 
     }
 	
-	else showError((uint8_t *)"Invalid format specifier\n");
+	else showError((uint8_t *)"Invalid format\n");
 }
 
 

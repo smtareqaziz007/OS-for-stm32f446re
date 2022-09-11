@@ -1,0 +1,21 @@
+Terminal 1
+make clean
+make
+make load
+
+Terminal 2
+gdb-multiarch
+file target/asst01
+target remote localhost:3333
+monitor halt
+monitor flash write_image erase target/asst01
+
+Terminal 3
+screen /dev/ttyACM0 115200,cs8
+ 
+After modification
+make all
+
+in gdb
+monitor reset init
+monitor flash write_image erase target/asst01
