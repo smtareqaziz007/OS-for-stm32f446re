@@ -4,7 +4,12 @@
 #define AHB_CLK 180000000
 #define INTERVAL_10ms (AHB_CLK / 100) - 1
 #define INTERVAL_1ms (AHB_CLK / 1000) - 1
-volatile uint32_t mscount;
+
+void  SysTick_Handler(void)
+{
+
+    mscount++;
+}
 
 void sysTick_Enable(){
 
@@ -23,11 +28,11 @@ void sysTick_Disable(){
 	STK->CTRL &= ~(1 << 0);
 }
 
-void sysTick_init(){
+void sysTick_init(uint32_t load){
 
 	sysTick_Disable();
 	STK->CTRL = 0;
-	STK->LOAD = INTERVAL_10ms;
+	STK->LOAD = load - 1;
 	STK->VAL = 0;
 	mscount = 0;
 	STK->CTRL |= 7 << 0;
@@ -49,8 +54,9 @@ void updateSysTickCount(uint32_t reload){
 
 uint32_t getTime(){
 
-	uint32_t ms = mscount * 10;
-	ms += ((STK->LOAD - STK->VAL) * 10) / (STK->LOAD);
+	uint32_t delayms = ((STK->LOAD + 1) * 1000) / AHB_CLK; 
+	uint32_t ms = mscount * delayms;
+	ms += ((STK->LOAD - STK->VAL) * delayms) / (STK->LOAD);
 	return ms;
 }
 

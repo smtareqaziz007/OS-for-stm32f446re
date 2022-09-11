@@ -14,8 +14,7 @@ void func(){
 void kmain(void)
 {
 	__sys_init();
-	sysTick_init();
-	//sysTick_Disable();
+	sysTick_init(1800000);
 
 	uint32_t cases = 10;
 	//uint32_t a = 12345678;
@@ -33,7 +32,6 @@ void kmain(void)
 
 	while(cases--){
 
-		sysTick_Enable();
 		uint32_t t1 = getTime();
 		
 		kprintf((uint8_t*)"%d", (uint8_t*) &t1);
@@ -55,18 +53,8 @@ void kmain(void)
 
 		uint32_t t3 = getTime();
 
-		//for(uint32_t i=0;i<5000000;i++){}	
-		//for(; getTime() - t3 < 1000 ; ){}
-		while(1){
+		for(; getTime() - t3 < 1000 ; ){}
 
-			uint32_t t4 = getTime();
-			/*kprintf((uint8_t*)"%s",(uint8_t*)"Get time : ");
-			kprintf((uint8_t*)"%d", (uint8_t*) &t4);
-			kprintf((uint8_t*)"%s",(uint8_t*)"\n");*/
-			if(t4 - t3 >= 1000) break;
-		}
-
-		sysTick_Disable();
 	}
 }
 

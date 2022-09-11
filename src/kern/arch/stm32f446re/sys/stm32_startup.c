@@ -5,10 +5,9 @@
 * Total 109x4 == 436 bytes
 ***/
 #include "../include/sys/stm32_startup.h"
-#include "../include/sys/sys.h"
+//#include "../include/sys/sys.h"
 
 uint32_t g_tick_count = 0;
-//uint32_t mscount = 0;
 
 void Reset_Handler(void){
 	uint32_t size = (uint32_t)&_edata - (uint32_t)&_sdata;
@@ -29,19 +28,6 @@ void Reset_Handler(void){
 }
 void Default_Handler(void){
 	while(1);
-}
-void  SysTick_Handler(void)
-{
-
-	//uint32_t *pICSR = (uint32_t*)0xE000ED04;
-
-    update_global_tick_count();
-    mscount++;
-
-    //unblock_tasks();
-
-    //pend the pendsv exception
-    //*pICSR |= ( 1 << 28);
 }
 
 //2. implement the fault handlers

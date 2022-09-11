@@ -20,5 +20,6 @@ void sysTick_Disable(void);
 uint32_t getSysTickCount(void);
 void updateSysTickCount(uint32_t);
 uint32_t getTime(void);
+void SysTick_Handler(void);
 
 #endif
