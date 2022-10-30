@@ -4,7 +4,7 @@
 #define PWR	((PWR_TypeDef *)0x40007000)
 #define FLASH	((FLASH_TypeDef *)0x40023C00)
 #define RCC 	((RCC_TypeDef *)0x40023800)
-#define SCB ((SCB_type *) 0xE000ED00 )
+// #define SCB ((SCB_type *) 0xE000ED00 )
 /**
 * Define GPIOx Port
 **/

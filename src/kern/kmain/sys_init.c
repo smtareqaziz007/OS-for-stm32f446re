@@ -3,6 +3,7 @@
 #include "../arch/stm32f446re/include/dev/usart.h"
 #include "../arch/stm32f446re/include/dev/gpio.h"
 #include "../arch/stm32f446re/include/dev/scb.h"
+//#include "../arch/stm32f446re/include/sys/sys.h"
 
 void __sys_init(void)
 {
